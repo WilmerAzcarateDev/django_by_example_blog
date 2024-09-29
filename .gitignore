@@ -1,5 +1,6 @@
 # Entorno
 .venv
+.env
 
 # Cache
 myblog/myblog/__pycache__

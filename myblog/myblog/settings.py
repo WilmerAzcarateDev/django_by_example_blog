@@ -10,23 +10,25 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env()
+environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+9kgcpbam-#_hzi6=%r-&aai^9#ebw0)sl6ql(9i#bkcvu7m82'
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG',default=False)
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS',default=[])
 
 # Application definition
 
@@ -77,8 +79,8 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': f'django.db.backends.{env.str('DB_ENGINE',default='sqlite3')}',
+        'NAME': env.str('DB_NAME',default=BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -125,9 +127,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email
-EMAIL_HOST = 'smtp-mail.outlook.com'
-EMAIL_HOST_USER='django4byexamplewilazdev@outlook.com'
-EMAIL_HOST_PASSWORD='quierovivir123'
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = env.str('EMAIL_HOST')
+EMAIL_HOST_USER=env.str('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD=env.str('EMAIL_HOST_PASSWORD')
+EMAIL_PORT=env.int('EMAIL_PORT')
+EMAIL_USE_TLS=env.bool('EMAIL_USE_TLS')
+EMAIL_BACKEND=env.str('EMAIL_BACKEND')
