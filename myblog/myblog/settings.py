@@ -30,6 +30,8 @@ DEBUG = env.bool('DEBUG',default=False)
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS',default=[])
 
+SITE_ID = 1
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
-    'taggit'
+    'taggit',
+    'django.contrib.sites',
+    'django.contrib.sitemaps'
 ]
 
 MIDDLEWARE = [
@@ -80,7 +84,7 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': f'django.db.backends.{env.str('DB_ENGINE',default='sqlite3')}',
-        'NAME': env.str('DB_NAME',default=BASE_DIR / 'db.sqlite3'),
+        'NAME': env.str('DB_NAME',default=f"{BASE_DIR / 'db.sqlite3'}"),
     }
 }
 
